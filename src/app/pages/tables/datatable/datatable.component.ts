@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Http2ServerRequest} from "http2";
 
 @Component({
   selector: 'ngx-smart-table',
@@ -14,29 +15,10 @@ export class DatatableComponent {
     limit: 10,
   };
   columns = [
-    { prop: 'name', summaryFunc: () => null },
-    { prop:'gender',name: '性别', summaryFunc: cells => this.summaryForGender(cells) },
-    { name: 'Company', summaryFunc: () => null },
+    { prop: 'id', summaryFunc: () => null },
+    { prop:'name',name: '名称', summaryFunc: cells => this.summaryForGender(cells) },
+    { prop: 'code', name:'编码', summaryFunc: () => null },
   ];
-
-  data = [
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-    {'name':'1','gender':'male', 'company':'test'},
-  ]
 
   constructor() {
     this.page.page = 0;
@@ -50,18 +32,25 @@ export class DatatableComponent {
   }
 
   setPage(event) {
-    console.log(event);
+    this.page.page = event.offset+1
+    this.fetch(data => {
+      this.rows = data;
+      setTimeout(() => {
+        this.loadingIndicator = false;
+      }, 1500);
+    });
   }
 
   fetch(cb) {
-    // const req = new XMLHttpRequest();
-    // req.open('GET', `assets/data/company.json`);
-    //
-    // req.onload = () => {
-    //   cb(JSON.parse(req.response));
-    // };
-    cb(this.data)
-    // req.send();
+    const req = new XMLHttpRequest();
+    req.open('get', `http://localhost:2333/org/query?`+'page='+this.page.page+"&limit="+this.page.limit);
+
+    req.onload = () => {
+      console.log(JSON.parse(req.response).data.list)
+      cb(JSON.parse(req.response).data.list);
+      this.page.total = JSON.parse(req.response).data.total
+    };
+    req.send();
   }
 
   private summaryForGender(cells: string[]) {

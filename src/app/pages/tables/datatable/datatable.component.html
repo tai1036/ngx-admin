@@ -6,16 +6,17 @@
   <nb-card-body>
     <ngx-datatable
       class="material"
-      [rows]="data"
+      [rows]="rows"
       [columns]="columns"
       columnMode="force"
       rowHeight="auto"
-      [externalPaging]="false"
+      [externalPaging]="true"
       [count]="page.total"
       [offset]="page.page"
       [limit]="page.limit"
       [footerHeight]="50"
       [headerHeight]="50"
+      (page)="setPage($event)"
     ></ngx-datatable>
   </nb-card-body>
 </nb-card>
