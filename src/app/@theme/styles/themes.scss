@@ -3,6 +3,10 @@
 // @nebular out of the box themes
 @import '~@nebular/theme/styles/themes';
 
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
 $nb-themes: nb-register-theme((
   layout-padding-top: 2.25rem,
 

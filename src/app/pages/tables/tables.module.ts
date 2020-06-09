@@ -5,6 +5,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { TablesRoutingModule, routedComponents } from './tables-routing.module';
 import { FsIconComponent } from './tree-grid/tree-grid.component';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { FsIconComponent } from './tree-grid/tree-grid.component';
     ThemeModule,
     TablesRoutingModule,
     Ng2SmartTableModule,
+    NgxDatatableModule,
   ],
   declarations: [
     ...routedComponents,
